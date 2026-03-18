@@ -17,11 +17,22 @@ export function SearchIcon({ active }) {
   );
 }
 export function SellIcon({ active }) {
-  const c = active ? '#FF6A00' : '#7A6B5A';
+  const color = active ? '#FF6A00' : '#6b7280';
   return (
-    <svg viewBox="0 0 24 24" fill="none" style={iconStyle}>
-      <path d="M5 17h14v-2l-2-4H7L5 15v2zm2.5-6h9l1.5 3h-12l1.5-3zM6 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm12 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM6 4l1.5 3h9L18 4H6z" fill={c} stroke="none" />
-      <path d="M9 10l3 3 3-3" stroke={c} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ marginRight: 6 }}
+    >
+      {/* Sell / Hand holding money icon */}
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+      <path d="M12 6v6l4 2" />
     </svg>
   );
 }
