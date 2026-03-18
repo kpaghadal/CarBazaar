@@ -3,50 +3,88 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '../components/Logo';
 import { AuthCard } from '../components/auth/AuthCard';
 import { CarHeroBlock } from '../components/auth/CarHeroBlock';
+import '../styles/Login.css';
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [activeTab, setActiveTab] = useState('user'); // 'user' or 'admin'
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/home');
+    if (activeTab === 'admin') {
+      navigate('/admin/dashboard');
+    } else {
+      navigate('/home');
+    }
   };
 
+  const isAdmin = activeTab === 'admin';
+
   return (
-    <div style={pageWrap}>
+    <div className="login-page-wrap">
       <AuthCard
         leftBg="login"
         leftContent={<CarHeroBlock variant="login" />}
       >
         <Logo variant="auth" />
-        <h1 style={styles.title}>User Login</h1>
-        <p style={styles.subtitle}>
-          Welcome back. Sign in to continue buying and selling cars.
+
+        {/* ===== TAB SWITCHER ===== */}
+        <div className="login-tab-wrapper">
+          <button
+            type="button"
+            className={`login-tab-btn ${activeTab === 'user' ? 'active' : ''}`}
+            onClick={() => setActiveTab('user')}
+          >
+            <span className="tab-icon"></span> User Login
+          </button>
+          <button
+            type="button"
+            className={`login-tab-btn ${activeTab === 'admin' ? 'active' : ''}`}
+            onClick={() => setActiveTab('admin')}
+          >
+            <span className="tab-icon"></span> Admin Login
+          </button>
+        </div>
+
+        {/* ===== TITLE + FORM fade in when tab changes ===== */}
+        <div className="login-form-wrap" key={activeTab}>
+        <h1 className="login-title">
+          {isAdmin ? 'Admin Login' : 'User Login'}
+        </h1>
+        <p className="login-subtitle">
+          {isAdmin
+            ? 'Welcome, Admin. Sign in to manage the platform.'
+            : 'Welcome back. Sign in to continue buying and selling cars.'}
         </p>
-        <form style={styles.form} onSubmit={handleSubmit}>
-          <label style={styles.label}>
-            Email
+
+        <form className="login-form" onSubmit={handleSubmit}>
+
+          {/* EMAIL */}
+          <label className="login-label">
+            {isAdmin ? 'Admin Email' : 'Email'}
             <input
               type="email"
-              placeholder="Enter your email"
-              style={styles.input}
+              placeholder={isAdmin ? 'Enter your email' : 'Enter your email'}
+              className="login-input"
               aria-label="Email"
             />
           </label>
-          <label style={styles.label}>
+
+          
+          <label className="login-label">
             Password
-            <div style={styles.passwordWrap}>
+            <div className="login-password-wrap">
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Enter your password"
-                style={{ ...styles.input, paddingRight: 44 }}
+                className="login-input"
                 aria-label="Password"
               />
               <button
                 type="button"
-                style={styles.eyeBtn}
+                className="login-eye-btn"
                 onClick={() => setShowPassword((s) => !s)}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
@@ -54,129 +92,36 @@ export function Login() {
               </button>
             </div>
           </label>
-          <div style={styles.options}>
-            <label style={styles.checkboxLabel}>
+
+          
+          <div className="login-options">
+            <label className="login-checkbox-label">
               <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                style={styles.checkbox}
+                className="login-checkbox"
               />
               <span>Remember me</span>
             </label>
-            <Link to="/forgot-password" style={styles.forgotLink}>
-              Forgot password?
-            </Link>
           </div>
-          <button type="submit" style={styles.submit}>
-            Log in
+
+          {/* SUBMIT — same orange color for both user & admin */}
+          <button type="submit" className="login-submit-btn">
+            {isAdmin ? 'Log in' : 'Log in'}
           </button>
+
         </form>
-        <p style={styles.signupText}>
-          Don&apos;t have an account? <Link to="/signup">Sign up</Link>
-        </p>
+
+        {/* Signup link only for users */}
+        {!isAdmin && (
+          <p className="login-signup-text">
+            Don&apos;t have an account? <Link to="/signup">Sign up</Link>
+          </p>
+        )}
+        </div>{/* end login-form-wrap */}
+
       </AuthCard>
     </div>
   );
 }
-
-const pageWrap = {
-  minHeight: '100vh',
-  padding: '24px 16px',
-  backgroundColor: '#F8F8F8',
-};
-
-const styles = {
-  title: {
-    margin: '24px 0 0',
-    fontSize: '1.5rem',
-    fontWeight: 700,
-    color: '#0F1724',
-  },
-  subtitle: {
-    margin: '8px 0 0',
-    fontSize: '0.9375rem',
-    color: '#7A6B5A',
-  },
-  form: {
-    marginTop: '28px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '20px',
-    flex: 1,
-  },
-  label: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px',
-    fontSize: '0.875rem',
-    fontWeight: 600,
-    color: '#7A6B5A',
-  },
-  input: {
-    padding: '12px 14px',
-    borderRadius: 'var(--input-radius)',
-    border: '1px solid var(--color-input-border)',
-    fontSize: '0.9375rem',
-    color: 'var(--color-text-primary)',
-    outline: 'none',
-  },
-  passwordWrap: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  eyeBtn: {
-    position: 'absolute',
-    right: 12,
-    top: '50%',
-    transform: 'translateY(-50%)',
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    padding: 4,
-    fontSize: '1rem',
-  },
-  options: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  checkboxLabel: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '8px',
-    fontSize: '0.875rem',
-    color: '#0F1724',
-    cursor: 'pointer',
-    fontWeight: 400,
-  },
-  checkbox: {
-    width: 16,
-    height: 16,
-    accentColor: '#FF6A00',
-  },
-  forgotLink: {
-    fontSize: '0.875rem',
-    color: '#FF6A00',
-    textDecoration: 'underline',
-  },
-  submit: {
-    marginTop: '8px',
-    padding: '14px 24px',
-    backgroundColor: 'var(--color-accent)',
-    color: '#fff',
-    border: 'none',
-    borderRadius: 'var(--button-radius)',
-    fontSize: '1rem',
-    fontWeight: 600,
-    cursor: 'pointer',
-  },
-  signupText: {
-    margin: '24px 0 0',
-    fontSize: '0.9375rem',
-    color: '#7A6B5A',
-  },
-};

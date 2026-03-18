@@ -41,7 +41,7 @@ export function Signup() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Create a password"
-                style={{ ...styles.input, paddingRight: 44 }}
+                style={styles.passwordInput}
                 aria-label="Password"
               />
               <button
@@ -100,6 +100,8 @@ const styles = {
     color: '#7A6B5A',
   },
   input: {
+    width: '100%',
+    boxSizing: 'border-box',
     padding: '12px 14px',
     borderRadius: '8px',
     border: '1px solid #E5E5E5',
@@ -111,6 +113,18 @@ const styles = {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
+    width: '100%',
+  },
+  // ✅ Full width password input with room for eye button
+  passwordInput: {
+    width: '100%',
+    boxSizing: 'border-box',
+    padding: '12px 44px 12px 14px',
+    borderRadius: '8px',
+    border: '1px solid #E5E5E5',
+    fontSize: '0.9375rem',
+    color: '#0F1724',
+    outline: 'none',
   },
   eyeBtn: {
     position: 'absolute',
