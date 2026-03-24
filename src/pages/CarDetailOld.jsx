@@ -36,7 +36,7 @@ export function CarDetailOld() {
             <div style={styles.header}>
               <div>
                 <h2 style={styles.title}>{car.title}</h2>
-                <div style={styles.price}>${Number(car.price || 0).toLocaleString()}</div>
+                <div style={styles.price}>₹{Number(car.price || 0).toLocaleString()}</div>
               </div>
             </div>
             <div style={styles.card}>

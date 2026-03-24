@@ -30,7 +30,7 @@ export function CarIcon({ size = 24, variant = 'logo', style = {} }) {
     );
   }
 
-  // ✅ 'logo' variant — exact same as admin panel
+
   if (variant === 'logo') {
     return (
       <svg

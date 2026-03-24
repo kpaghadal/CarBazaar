@@ -24,7 +24,7 @@ export function CarCard({ car, onFavorite, isFavorite = false }) {
         )}
       </div>
       <h3 style={styles.title}>{car.title}</h3>
-      <p style={styles.price}>${car.price.toLocaleString()}</p>
+      <p style={styles.price}>₹{car.price.toLocaleString()}</p>
       <div style={styles.specs}>
         <span style={styles.spec}>{car.year}</span>
         <span style={styles.spec}>{car.mileage}</span>

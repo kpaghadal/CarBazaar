@@ -84,7 +84,7 @@ export function BrowseCars() {
             <div style={styles.sidebarSection}>
               <div style={styles.sidebarTitle}>Price Range</div>
               <div style={styles.rangeInputs}>
-                <span style={styles.currencyPrefix}>$</span>
+                <span style={styles.currencyPrefix}>₹</span>
                 <input
                   type="number"
                   min={10000}

@@ -49,7 +49,7 @@ export function CarDetailNew() {
             <div style={styles.header}>
               <div>
                 <h2 style={styles.title}>{car.title}</h2>
-                <div style={styles.price}>${car.price.toLocaleString()}</div>
+                <div style={styles.price}>₹{car.price.toLocaleString()}</div>
               </div>
               <div>
                 <button

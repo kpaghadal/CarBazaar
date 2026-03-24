@@ -10,6 +10,10 @@ import { CarDetailNew } from './pages/CarDetailNew';
 import { CarDetailOld } from './pages/CarDetailOld';
 import { Chat } from './pages/Chat';
 import { Profile } from './pages/Profile';
+import { AdminDashboard } from './pages/admin/dashboard';
+import { AdminListings }  from './pages/admin/listings';
+import { AdminUsers }     from './pages/admin/users';
+
 
 function App() {
   return (
@@ -29,6 +33,9 @@ function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/forgot-password" element={<Navigate to="/login" replace />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/listings"  element={<AdminListings />} />
+        <Route path="/admin/users"     element={<AdminUsers />} />
       </Routes>
     </BrowserRouter>
   );

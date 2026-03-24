@@ -74,7 +74,7 @@ export function NewCars() {
               <div style={styles.sidebarTitle}>Price Range</div>
               <div style={styles.rangeInputs}>
                 <div style={styles.rangeRow}>
-                  <span style={styles.currencyPrefix}>$</span>
+                  <span style={styles.currencyPrefix}>₹</span>
                   <input
                     type="number"
                     min={0}
@@ -84,7 +84,7 @@ export function NewCars() {
                   />
                 </div>
                 <div style={styles.rangeRow}>
-                  <span style={styles.currencyPrefix}>$</span>
+                  <span style={styles.currencyPrefix}>₹</span>
                   <input
                     type="number"
                     min={0}

@@ -49,9 +49,9 @@ const CurrencyIcon = () => (
 
 // Mock Data
 const contacts = [
-  { id: 1, name: 'Marcus', status: 'Online', lastMsg: 'Available for a test drive?', time: '2m', active: true, avatar: 'https://i.pravatar.cc/150?u=1' },
-  { id: 2, name: 'Sarah', status: 'Offline', lastMsg: 'Thanks for the info!', time: '2h', active: false, avatar: 'https://i.pravatar.cc/150?u=2' },
-  { id: 3, name: 'Carlos', status: 'Offline', lastMsg: 'Is the price negotiable?', time: '1d', active: false, avatar: 'https://i.pravatar.cc/150?u=3' },
+  { id: 1, name: 'Mohit',  lastMsg: 'Available for a test drive?', time: '2m', avatar: '' },
+  { id: 2, name: 'Saransh',  lastMsg: 'Thanks for the info!', time: '2h',  avatar: '' },
+  { id: 3, name: 'Chintan',  lastMsg: 'Is the price negotiable?', time: '1d', avatar: '' },
 ];
 
 const initialMessages = [
@@ -106,10 +106,6 @@ export function Chat() {
           <div className="contacts-list">
             {contacts.map((contact) => (
               <div key={contact.id} className={`contact-item ${contact.active ? 'active' : ''}`}>
-                <div className="avatar-container">
-                  <img src={contact.avatar} alt={contact.name} className="avatar" />
-                  {contact.status === 'Online' && <div className="status-indicator"></div>}
-                </div>
                 <div className="contact-info">
                   <div className="contact-header">
                     <span className="contact-name">{contact.name}</span>
@@ -126,18 +122,10 @@ export function Chat() {
         <div className="chat-main">
           <div className="chat-header">
             <div className="chat-user-info">
-              <div className="avatar-container">
-                <img src={contacts[0].avatar} alt={contacts[0].name} className="avatar" />
-                <div className="status-indicator"></div>
-              </div>
               <div className="chat-user-details">
                 <span className="chat-user-name">{contacts[0].name}</span>
                 <span className="chat-user-status">{contacts[0].status}</span>
               </div>
-            </div>
-            <div className="chat-actions">
-              <button className="chat-action-btn"><PhoneIcon /></button>
-              <button className="chat-action-btn"><DotsIcon /></button>
             </div>
           </div>
 
@@ -154,7 +142,7 @@ export function Chat() {
           </div>
 
           <div className="chat-input-area">
-            <button className="attach-btn"><AttachIcon /></button>
+
             <input
               type="text"
               className="message-input"
@@ -181,7 +169,7 @@ export function Chat() {
               />
             </div>
 
-            <div className="listing-price">$41,500</div>
+            <div className="listing-price">₹41,500</div>
             <h3 className="listing-title">2019 Ford Mustang GT Premium</h3>
 
             <div className="listing-specs">
@@ -203,16 +191,7 @@ export function Chat() {
               </div>
             </div>
 
-            <div className="listing-actions">
-              <button className="btn-outline">
-                <CalendarIcon />
-                Schedule Test Drive
-              </button>
-              <button className="btn-outline">
-                <CurrencyIcon />
-                Make an Offer
-              </button>
-            </div>
+
           </div>
         </div>
 
