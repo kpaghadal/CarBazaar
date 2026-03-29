@@ -49,19 +49,19 @@ const IconPlus = () => (
   </svg>
 );
 
-const IconChevronLeft = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6"/>
+const IconClose = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"/>
+    <line x1="6" y1="6" x2="18" y2="18"/>
   </svg>
 );
 
-const IconChevronRight = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="9 18 15 12 9 6"/>
+const IconChevronDown = () => (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9"/>
   </svg>
 );
 
-// Seller avatar placeholder
 const IconUser = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -69,27 +69,334 @@ const IconUser = () => (
   </svg>
 );
 
-// ── Data ───────────────────────────────────────────────────
-const allListings = [
-  { id: 1, car: 'Toyota Camry',        year: '2022 • Sedan',    price: '₹28,500', seller: 'Jency', avatar: 'JS', status: 'Approved', date: 'Mar 15, 2026' },
-  { id: 2, car: 'Honda Civic',         year: '2023 • Hatchback', price: '₹24,900', seller: 'Shivansh', avatar: 'SJ', status: 'Pending',  date: 'Mar 14, 2026' },
-  { id: 3, car: 'BMW X5',              year: '2021 • SUV',       price: '₹52,000', seller: 'Mahesh', avatar: 'MW', status: 'Rejected', date: 'Mar 13, 2026' },
-  { id: 4, car: 'Mercedes C-Class',    year: '2022 • Sedan',    price: '₹45,800', seller: 'Elvish', avatar: 'ED', status: 'Approved', date: 'Mar 12, 2026' },
-  { id: 5, car: 'Audi A4',             year: '2023 • Sedan',    price: '₹38,200', seller: 'Danish', avatar: 'DB', status: 'Pending',  date: 'Mar 11, 2026 ' },
+// ── Status Dropdown ──────────────────────────────────────────
+function StatusDropdown({ status, onChange }) {
+  const [open, setOpen] = useState(false);
+  const options = ['Approved', 'Pending', 'Rejected'];
+  const colors = {
+    Approved: { bg: '#F0FDF4', color: '#22C55E', dot: '#22C55E' },
+    Pending:  { bg: '#FFFBEB', color: '#F59E0B', dot: '#F59E0B' },
+    Rejected: { bg: '#FEF2F2', color: '#EF4444', dot: '#EF4444' },
+  };
+  const c = colors[status] || colors.Pending;
+
+  return (
+    <div style={{ position: 'relative', display: 'inline-block' }}>
+      <button
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 6,
+          padding: '5px 10px', borderRadius: 20,
+          background: c.bg, color: c.color,
+          border: `1.5px solid ${c.color}33`,
+          fontSize: 12, fontWeight: 600, cursor: 'pointer',
+        }}
+      >
+        <span style={{ width: 6, height: 6, borderRadius: '50%', background: c.dot, flexShrink: 0 }} />
+        {status}
+        <span style={{ color: c.color, opacity: 0.7, display: 'flex', alignItems: 'center' }}>
+          <IconChevronDown />
+        </span>
+      </button>
+
+      {open && (
+        <>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 10 }} onClick={() => setOpen(false)} />
+          <div style={{
+            position: 'absolute', top: 'calc(100% + 4px)', left: 0,
+            background: '#fff', borderRadius: 10,
+            boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+            border: '1px solid #f3f4f6',
+            zIndex: 11, minWidth: 130, padding: '4px 0',
+            animation: 'modalIn 0.15s ease',
+          }}>
+            {options.map((opt) => {
+              const oc = colors[opt];
+              const isSelected = opt === status;
+              return (
+                <button
+                  key={opt}
+                  onClick={() => { onChange(opt); setOpen(false); }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 8,
+                    width: '100%', padding: '8px 14px',
+                    background: isSelected ? oc.bg : 'transparent',
+                    border: 'none', cursor: 'pointer', textAlign: 'left',
+                    fontSize: 13, fontWeight: isSelected ? 700 : 500,
+                    color: isSelected ? oc.color : '#374151',
+                  }}
+                >
+                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: oc.dot, flexShrink: 0 }} />
+                  {opt}
+                  {isSelected && <span style={{ marginLeft: 'auto', fontSize: 11 }}>✓</span>}
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ── View Modal ───────────────────────────────────────────────
+function ViewModal({ listing, onClose }) {
+  return (
+    <div style={ms.overlay}>
+      <div style={{ ...ms.modal, maxWidth: 460 }}>
+        <div style={ms.modalHeader}>
+          <h3 style={ms.modalTitle}>Listing Details</h3>
+          <button style={ms.closeBtn} onClick={onClose}><IconClose /></button>
+        </div>
+        <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {[
+            ['Car',    listing.car],
+            ['Year / Type', listing.year],
+            ['Price', listing.price],
+            ['Seller', listing.seller],
+            ['Status', listing.status],
+            ['Date Posted', listing.date],
+          ].map(([label, val]) => (
+            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #f3f4f6', paddingBottom: 10 }}>
+              <span style={{ fontSize: 13, color: '#6b7280', fontWeight: 500 }}>{label}</span>
+              <span style={{ fontSize: 13, color: '#0F1724', fontWeight: 600 }}>{val}</span>
+            </div>
+          ))}
+        </div>
+        <div style={ms.modalFooter}>
+          <button style={ms.saveBtn} onClick={onClose}>Close</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Add / Edit Modal ─────────────────────────────────────────
+const EMPTY_FORM = { car: '', year: '', price: '', seller: '', status: 'Pending', date: '' };
+const BRANDS = ['Toyota', 'Honda', 'BMW', 'Mercedes', 'Audi', 'Hyundai', 'Kia', 'Ford', 'Suzuki', 'Tata'];
+const TYPES  = ['Sedan', 'SUV', 'Hatchback', 'Coupe', 'Convertible', 'Truck', 'Van'];
+
+function ListingModal({ mode, listing, onSave, onClose }) {
+  const [form, setForm] = useState(listing ? { ...listing } : { ...EMPTY_FORM });
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const e = {};
+    if (!form.car.trim())    e.car    = 'Car name is required';
+    if (!form.seller.trim()) e.seller = 'Seller name is required';
+    if (!form.price.trim())  e.price  = 'Price is required';
+    return e;
+  };
+
+  const handleSubmit = () => {
+    const e = validate();
+    if (Object.keys(e).length) { setErrors(e); return; }
+    onSave(form);
+  };
+
+  const field = (key, label, type = 'text', placeholder = '') => (
+    <div style={ms.field}>
+      <label style={ms.label}>{label}</label>
+      <input
+        style={{ ...ms.input, ...(errors[key] ? ms.inputErr : {}) }}
+        type={type}
+        value={form[key]}
+        onChange={(e) => { setForm({ ...form, [key]: e.target.value }); setErrors({ ...errors, [key]: '' }); }}
+        placeholder={placeholder || `Enter ${label.toLowerCase()}`}
+      />
+      {errors[key] && <span style={ms.errMsg}>{errors[key]}</span>}
+    </div>
+  );
+
+  return (
+    <div style={ms.overlay}>
+      <div style={ms.modal}>
+        <div style={ms.modalHeader}>
+          <h3 style={ms.modalTitle}>{mode === 'add' ? 'Add New Listing' : 'Edit Listing'}</h3>
+          <button style={ms.closeBtn} onClick={onClose}><IconClose /></button>
+        </div>
+        <div style={ms.modalBody}>
+          {field('car', 'Car Name', 'text', 'e.g. Toyota Camry')}
+
+          <div style={ms.row}>
+            <div style={{ ...ms.field, flex: 1 }}>
+              <label style={ms.label}>Year / Type</label>
+              <input
+                style={ms.input}
+                value={form.year}
+                onChange={(e) => setForm({ ...form, year: e.target.value })}
+                placeholder="e.g. 2022 • Sedan"
+              />
+            </div>
+            <div style={{ ...ms.field, flex: 1 }}>
+              <label style={ms.label}>Price</label>
+              <input
+                style={{ ...ms.input, ...(errors.price ? ms.inputErr : {}) }}
+                value={form.price}
+                onChange={(e) => { setForm({ ...form, price: e.target.value }); setErrors({ ...errors, price: '' }); }}
+                placeholder="e.g. ₹28,500"
+              />
+              {errors.price && <span style={ms.errMsg}>{errors.price}</span>}
+            </div>
+          </div>
+
+          <div style={ms.row}>
+            <div style={{ ...ms.field, flex: 1 }}>
+              <label style={ms.label}>Seller Name</label>
+              <input
+                style={{ ...ms.input, ...(errors.seller ? ms.inputErr : {}) }}
+                value={form.seller}
+                onChange={(e) => { setForm({ ...form, seller: e.target.value }); setErrors({ ...errors, seller: '' }); }}
+                placeholder="Enter seller name"
+              />
+              {errors.seller && <span style={ms.errMsg}>{errors.seller}</span>}
+            </div>
+            <div style={{ ...ms.field, flex: 1 }}>
+              <label style={ms.label}>Status</label>
+              <select style={ms.select} value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
+                <option>Approved</option>
+                <option>Pending</option>
+                <option>Rejected</option>
+              </select>
+            </div>
+          </div>
+
+          {field('date', 'Date Posted', 'text', 'e.g. Mar 15, 2026')}
+        </div>
+        <div style={ms.modalFooter}>
+          <button style={ms.cancelBtn} onClick={onClose}>Cancel</button>
+          <button style={ms.saveBtn} onClick={handleSubmit}>
+            {mode === 'add' ? 'Add Listing' : 'Save Changes'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Delete Modal ─────────────────────────────────────────────
+function DeleteModal({ listing, onConfirm, onClose }) {
+  return (
+    <div style={ms.overlay}>
+      <div style={{ ...ms.modal, maxWidth: 400 }}>
+        <div style={ms.modalHeader}>
+          <h3 style={{ ...ms.modalTitle, color: '#ef4444' }}>Delete Listing</h3>
+          <button style={ms.closeBtn} onClick={onClose}><IconClose /></button>
+        </div>
+        <div style={{ padding: '20px 24px' }}>
+          <p style={{ color: '#374151', fontSize: 15, lineHeight: 1.6 }}>
+            Are you sure you want to delete <strong>{listing.car}</strong>? This action cannot be undone.
+          </p>
+        </div>
+        <div style={ms.modalFooter}>
+          <button style={ms.cancelBtn} onClick={onClose}>Cancel</button>
+          <button style={{ ...ms.saveBtn, background: '#ef4444' }} onClick={onConfirm}>Delete</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Modal Styles ─────────────────────────────────────────────
+const ms = {
+  overlay: {
+    position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    zIndex: 1000, backdropFilter: 'blur(3px)',
+  },
+  modal: {
+    background: '#fff', borderRadius: 16, width: '100%', maxWidth: 520,
+    boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
+    animation: 'modalIn 0.2s ease',
+  },
+  modalHeader: {
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    padding: '20px 24px', borderBottom: '1px solid #f3f4f6',
+  },
+  modalTitle: { fontSize: 18, fontWeight: 700, color: '#0F1724', margin: 0 },
+  closeBtn: {
+    background: 'none', border: 'none', cursor: 'pointer',
+    color: '#9ca3af', padding: 4, borderRadius: 6, display: 'flex',
+  },
+  modalBody: { padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 16 },
+  modalFooter: {
+    padding: '16px 24px', borderTop: '1px solid #f3f4f6',
+    display: 'flex', justifyContent: 'flex-end', gap: 10,
+  },
+  field: { display: 'flex', flexDirection: 'column', gap: 6 },
+  label: { fontSize: 13, fontWeight: 600, color: '#374151' },
+  input: {
+    padding: '9px 12px', borderRadius: 8,
+    border: '1.5px solid #e5e7eb', fontSize: 14, color: '#0F1724',
+    outline: 'none',
+  },
+  inputErr: { borderColor: '#ef4444' },
+  errMsg: { fontSize: 12, color: '#ef4444' },
+  select: {
+    padding: '9px 12px', borderRadius: 8,
+    border: '1.5px solid #e5e7eb', fontSize: 14, color: '#0F1724',
+    background: '#fff', cursor: 'pointer',
+  },
+  row: { display: 'flex', gap: 12 },
+  cancelBtn: {
+    padding: '9px 20px', borderRadius: 8, border: '1.5px solid #e5e7eb',
+    background: '#fff', color: '#374151', fontSize: 14, fontWeight: 600, cursor: 'pointer',
+  },
+  saveBtn: {
+    padding: '9px 20px', borderRadius: 8, border: 'none',
+    background: '#FF6A00', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer',
+  },
+};
+
+// ── Initial Data ─────────────────────────────────────────────
+const initialListings = [
+  { id: 1, car: 'Toyota Camry',     year: '2022 • Sedan',     price: '₹28,500', seller: 'Jency',    status: 'Approved', date: 'Mar 15, 2026' },
+  { id: 2, car: 'Honda Civic',      year: '2023 • Hatchback',  price: '₹24,900', seller: 'Shivansh', status: 'Pending',  date: 'Mar 14, 2026' },
+  { id: 3, car: 'BMW X5',           year: '2021 • SUV',        price: '₹52,000', seller: 'Mahesh',   status: 'Rejected', date: 'Mar 13, 2026' },
+  { id: 4, car: 'Mercedes C-Class', year: '2022 • Sedan',      price: '₹45,800', seller: 'Elvish',   status: 'Approved', date: 'Mar 12, 2026' },
+  { id: 5, car: 'Audi A4',          year: '2023 • Sedan',      price: '₹38,200', seller: 'Danish',   status: 'Pending',  date: 'Mar 11, 2026' },
 ];
 
-// ── Component ──────────────────────────────────────────────
+// ── Main Component ───────────────────────────────────────────
 export function AdminListings() {
-  const [search, setSearch] = useState('');
+  const [listings, setListings]         = useState(initialListings);
+  const [search, setSearch]             = useState('');
   const [statusFilter, setStatusFilter] = useState('All Status');
-  const [brandFilter, setBrandFilter] = useState('All Brands');
-  const [page, setPage] = useState(1);
+  const [brandFilter, setBrandFilter]   = useState('All Brands');
+  const [modal, setModal]               = useState(null); // { type: 'view'|'add'|'edit'|'delete', listing? }
+  const [nextId, setNextId]             = useState(6);
 
-  const filtered = allListings.filter((l) => {
+  // Derived stats
+  const totalListings    = listings.length;
+  const approvedListings = listings.filter((l) => l.status === 'Approved').length;
+  const pendingListings  = listings.filter((l) => l.status === 'Pending').length;
+
+  const filtered = listings.filter((l) => {
     const matchSearch = l.car.toLowerCase().includes(search.toLowerCase()) || l.seller.toLowerCase().includes(search.toLowerCase());
     const matchStatus = statusFilter === 'All Status' || l.status === statusFilter;
     return matchSearch && matchStatus;
   });
+
+  // CRUD
+  const handleAdd = (form) => {
+    setListings([...listings, { ...form, id: nextId }]);
+    setNextId(nextId + 1);
+    setModal(null);
+  };
+
+  const handleEdit = (form) => {
+    setListings(listings.map((l) => l.id === modal.listing.id ? { ...l, ...form } : l));
+    setModal(null);
+  };
+
+  const handleDelete = () => {
+    setListings(listings.filter((l) => l.id !== modal.listing.id));
+    setModal(null);
+  };
+
+  const updateStatus = (id, newStatus) => {
+    setListings(listings.map((l) => l.id === id ? { ...l, status: newStatus } : l));
+  };
 
   return (
     <div className="admin-layout">
@@ -115,21 +422,13 @@ export function AdminListings() {
                     onChange={(e) => setSearch(e.target.value)}
                   />
                 </div>
-                <select
-                  className="admin-filter-select"
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                >
+                <select className="admin-filter-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                   <option>All Status</option>
                   <option>Approved</option>
                   <option>Pending</option>
                   <option>Rejected</option>
                 </select>
-                <select
-                  className="admin-filter-select"
-                  value={brandFilter}
-                  onChange={(e) => setBrandFilter(e.target.value)}
-                >
+                <select className="admin-filter-select" value={brandFilter} onChange={(e) => setBrandFilter(e.target.value)}>
                   <option>All Brands</option>
                   <option>Toyota</option>
                   <option>Honda</option>
@@ -138,7 +437,7 @@ export function AdminListings() {
                   <option>Audi</option>
                 </select>
               </div>
-              <button className="admin-add-btn">
+              <button className="admin-add-btn" onClick={() => setModal({ type: 'add' })}>
                 <IconPlus /> Add Listing
               </button>
             </div>
@@ -156,69 +455,71 @@ export function AdminListings() {
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((row) => (
-                  <tr key={row.id} className="admin-table-row">
-                    <td>
-                      <div className="admin-car-cell">
-                        <div className="admin-car-img"><IconCarSmall /></div>
-                        <div>
-                          <p className="admin-car-name">{row.car}</p>
-                          <p className="admin-car-year">{row.year}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="admin-seller-cell">
-                        <div className="admin-seller-avatar" style={{ background: '#E5E7EB', color: '#6B7280' }}>
-                          <IconUser />
-                        </div>
-                        <div>
-                          <p className="admin-seller-name">{row.seller}</p>
-                          <p className="admin-seller-sub">{row.sellerTag}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td><span className="admin-price">{row.price}</span></td>
-                    <td>
-                      <span className={`admin-badge ${row.status.toLowerCase()}`}>{row.status}</span>
-                    </td>
-                    <td><span className="admin-date">{row.date}</span></td>
-                    <td>
-                      <div className="admin-actions">
-                        <button className="admin-action-btn" title="View"><IconEye /></button>
-                        <button className="admin-action-btn" title="Edit"><IconEdit /></button>
-                        <button className="admin-action-btn danger" title="Delete"><IconTrash /></button>
-                      </div>
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} style={{ textAlign: 'center', padding: '32px 0', color: '#9ca3af', fontSize: 14 }}>
+                      No listings found.
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  filtered.map((row) => (
+                    <tr key={row.id} className="admin-table-row">
+                      <td>
+                        <div className="admin-car-cell">
+                          <div className="admin-car-img"><IconCarSmall /></div>
+                          <div>
+                            <p className="admin-car-name">{row.car}</p>
+                            <p className="admin-car-year">{row.year}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="admin-seller-cell">
+                          <div className="admin-seller-avatar" style={{ background: '#E5E7EB', color: '#6B7280' }}>
+                            <IconUser />
+                          </div>
+                          <p className="admin-seller-name">{row.seller}</p>
+                        </div>
+                      </td>
+                      <td><span className="admin-price">{row.price}</span></td>
+                      <td>
+                        <span className={`admin-badge ${row.status.toLowerCase()}`}>{row.status}</span>
+                      </td>
+                      <td><span className="admin-date">{row.date}</span></td>
+                      <td>
+                        <div className="admin-actions">
+                          <button className="admin-action-btn" title="View" onClick={() => setModal({ type: 'view', listing: row })}>
+                            <IconEye />
+                          </button>
+                          <button className="admin-action-btn" title="Edit" onClick={() => setModal({ type: 'edit', listing: row })}>
+                            <IconEdit />
+                          </button>
+                          <button className="admin-action-btn danger" title="Delete" onClick={() => setModal({ type: 'delete', listing: row })}>
+                            <IconTrash />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
-
-            {/* Pagination */}
-            <div className="admin-pagination">
-              <span className="admin-pagination-info">Showing 1 to 5 of 47 listings</span>
-              <div className="admin-pagination-controls">
-                <button className="admin-page-btn" onClick={() => setPage(Math.max(1, page - 1))}>
-                  <IconChevronLeft />
-                </button>
-                {[1, 2, 3].map((n) => (
-                  <button
-                    key={n}
-                    className={`admin-page-btn ${page === n ? 'active' : ''}`}
-                    onClick={() => setPage(n)}
-                  >{n}</button>
-                ))}
-                <button className="admin-page-btn dots">...</button>
-                <button className="admin-page-btn" onClick={() => setPage(10)}>10</button>
-                <button className="admin-page-btn" onClick={() => setPage(Math.min(10, page + 1))}>
-                  <IconChevronRight />
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      {modal?.type === 'view'   && <ViewModal    listing={modal.listing} onClose={() => setModal(null)} />}
+      {modal?.type === 'add'    && <ListingModal mode="add"  listing={null}         onSave={handleAdd}  onClose={() => setModal(null)} />}
+      {modal?.type === 'edit'   && <ListingModal mode="edit" listing={modal.listing} onSave={handleEdit} onClose={() => setModal(null)} />}
+      {modal?.type === 'delete' && <DeleteModal  listing={modal.listing} onConfirm={handleDelete} onClose={() => setModal(null)} />}
+
+      <style>{`
+        @keyframes modalIn {
+          from { opacity: 0; transform: scale(0.95) translateY(-8px); }
+          to   { opacity: 1; transform: scale(1)    translateY(0);     }
+        }
+      `}</style>
     </div>
   );
 }

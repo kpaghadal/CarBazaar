@@ -6,6 +6,9 @@ import { Header } from '../components/Header';
 import { HeroSection } from '../components/HeroSection';
 import { CARS } from '../data/cars';
 import { useWishlist } from '../context/WishlistContext.jsx';
+import '../styles/users/Home.css';
+
+
 
 export function Home() {
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -60,6 +63,68 @@ export function Home() {
             />
           </div>
         </section>
+
+
+
+
+
+{/* Why Choose Us Section */}
+<section className="why-section">
+
+  <h2 className="why-title">Why Choose Us?</h2>
+
+  <div className="why-grid">
+
+    <div className="why-card">
+      <div className="why-icon-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0F1724" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <h3 className="why-card-title">Message Sellers Directly</h3>
+      <p className="why-card-desc">Talk directly to buyers or sellers inside CarBazaar.</p>
+    </div>
+
+    <div className="why-card">
+      <div className="why-icon-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0F1724" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+      </div>
+      <h3 className="why-card-title">Transparent Pricing</h3>
+      <p className="why-card-desc">Every listing shows a clear, honest price set by the seller.</p>
+    </div>
+
+    <div className="why-card">
+      <div className="why-icon-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0F1724" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="1" y="3" width="15" height="13" rx="2"/>
+          <path d="M16 8h4l3 3v5h-7V8z"/>
+          <circle cx="5.5" cy="18.5" r="2.5"/>
+          <circle cx="18.5" cy="18.5" r="2.5"/>
+        </svg>
+      </div>
+      <h3 className="why-card-title">Post Your Car in Minutes</h3>
+      <p className="why-card-desc">Add details, upload photos and go live instantly.</p>
+    </div>
+
+    <div className="why-card">
+      <div className="why-icon-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0F1724" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </div>
+      <h3 className="why-card-title">Smart Browse & Filter</h3>
+      <p className="why-card-desc">Filter by brand, fuel type, year and price range.</p>
+    </div>
+
+  </div>
+
+</section>
+
+
       </main>
 
       <Footer />
