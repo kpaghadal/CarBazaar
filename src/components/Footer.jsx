@@ -25,10 +25,10 @@ export function Footer() {
         </div>
         <div style={styles.column}>
           <h3 style={styles.heading}>Contact</h3>
-          <p style={styles.contact}>support@carxchange.com</p>
-          <p style={styles.contact}>+1 (555) 123-4567</p>
-          <p style={styles.contact}>123 Auto Mall Dr,</p>
-          <p style={styles.contact}>Los Angeles, CA 90210</p>
+          <p style={styles.contact}>support@carbazzar.com</p>
+          <p style={styles.contact}>+91 98567 87664</p>
+          <p style={styles.contact}>Rajkot</p>
+          <p style={styles.contact}>Gujarat, 395006</p>
         </div>
       </div>
       <div style={styles.bottom}>
@@ -136,7 +136,7 @@ const styles = {
     width: 40,
     height: 40,
     borderRadius: '50%',
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)', 
     border: '1px solid rgba(255, 255, 255, 0.15)',
     display: 'flex',
     alignItems: 'center',

@@ -23,88 +23,186 @@ export function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const navLinkStyle = (isActive) => ({
-    ...styles.navLink,
-    ...(isActive ? styles.navLinkActive : {}),
-    ...(isActive ? styles.navLinkActiveBg : {}),
-  });
+
+  
+
+  const navLinkClass = (isActive) =>
+    `nav-link${isActive ? ' nav-link--active' : ''}`;
 
   return (
-    <header style={styles.header}>
-      <div style={styles.headerContent}>
-        <Link to="/home" style={styles.logo}>
-          <div style={styles.logoIcon}>
-            <CarIcon size={36} variant="footer" />
-          </div>
-          <div style={styles.logoText}>
-            <span style={styles.logoTitle}>CarBazaar</span>
-            <span style={styles.logoSubtitle}>Find your perfect ride</span>
-          </div>
-        </Link>
-        <nav style={styles.nav}>
-          <Link to="/home" className="nav-link" style={navLinkStyle(isHome)}>
-            <HomeIcon active={isHome} />
-            Home
-          </Link>
-          <Link to="/new-cars" className="nav-link" style={navLinkStyle(isBuy)}>
-            <SearchIcon active={isBuy} />
-            Buy Cars
-          </Link>
-          <div style={styles.dropdownWrap} ref={dropdownRef}>
-            <button
-              type="button"
-              className="nav-link"
-              style={{
-                ...styles.navLink,
-                ...styles.navLinkDropdown,
-                ...(isSell ? styles.navLinkActive : {}),
-                ...(isSell ? styles.navLinkActiveBg : {}),
-              }}
-              onClick={() => setDropdownOpen((o) => !o)}
-              aria-expanded={dropdownOpen}
-              aria-haspopup="true"
-            >
-              <SellIcon active={isSell} />
-              Sell Car
-              <span style={styles.chevron}>▼</span>
-            </button>
-            {dropdownOpen && (
-              <div style={styles.dropdown}>
-                <Link
-                  to="/sell"
-                  style={styles.dropdownItem}
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  Sell old car
-                </Link>
-                <Link
-                  to="/old-cars"
-                  style={styles.dropdownItem}
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  Buy old car
-                </Link>
-              </div>
-            )}
-          </div>
-          <Link to="/wishlist" className="nav-link" style={navLinkStyle(path === '/wishlist')}>
-            <HeartIcon active={path === '/wishlist'} />
-            Wishlist
-          </Link>
-          <Link to="/profile" className="nav-link" style={navLinkStyle(path === '/profile')}>
-            <ProfileIcon active={path === '/profile'} />
-            Profile
-          </Link>
-        </nav>
-        <button
-          type="button"
-          style={styles.logOutBtn}
-          onClick={() => navigate('/login')}
-        >
-          Log Out
-        </button>
-      </div>
-    </header>
+    <>
+      <style>{`
+        .nav-link {
+          color: #6b7280;
+          text-decoration: none;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 16px;
+          border-radius: 999px;
+          transition: color 0.2s, background-color 0.2s, transform 0.15s;
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-family: inherit;
+        }
+        .nav-link:hover {
+          color: #FF6A00;
+          background-color: #fff2e6;
+          transform: translateY(-1px);
+          text-decoration: none;
+        }
+        .nav-link--active {
+          color: #FF6A00;
+          background-color: #fff2e6;
+        }
+        .nav-link--active:hover {
+          transform: none;
+        }
+
+        .dropdown-item {
+          display: block;
+          padding: 10px 16px;
+          font-size: 14px;
+          font-weight: 500;
+          color: #0F1724;
+          text-decoration: none;
+          transition: background-color 0.15s, color 0.15s, padding-left 0.15s;
+        }
+        .dropdown-item:hover {
+          background-color: #fff2e6;
+          color: #FF6A00;
+          padding-left: 22px;
+          text-decoration: none;
+        }
+
+        .logout-btn {
+          height: 40px;
+          padding: 0 22px;
+          border-radius: 999px;
+          background-color: #ff4d4f;
+          color: #ffffff;
+          border: none;
+          font-size: 14px;
+          font-weight: 600;
+          margin-left: 16px;
+          cursor: pointer;
+          transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+        .logout-btn:hover {
+          background-color: #e03b3d;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(255, 77, 79, 0.35);
+        }
+        .logout-btn:active {
+          transform: translateY(0);
+          box-shadow: none;
+        }
+
+        .logo-link {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          text-decoration: none;
+          transition: opacity 0.2s;
+        }
+        .logo-link:hover {
+          opacity: 0.8;
+        }
+      `}</style>
+
+      <header style={styles.header}>
+        <div style={styles.headerContent}>
+          <a href="/home" className="logo-link">
+            <div style={styles.logoIcon}>
+              <CarIcon size={36} variant="footer" />
+            </div>
+            <div style={styles.logoText}>
+              <span style={styles.logoTitle}>CarBazaar</span>
+              <span style={styles.logoSubtitle}>Find your perfect ride</span>
+            </div>
+          </a>
+
+          <nav style={styles.nav}>
+            <Link to="/home" className={navLinkClass(isHome)}>
+              <HomeIcon active={isHome} />
+              Home
+            </Link>
+
+            <Link to="/new-cars" className={navLinkClass(isBuy)}>
+              <SearchIcon active={isBuy} />
+              Buy Cars
+            </Link>
+
+            <div style={styles.dropdownWrap} ref={dropdownRef}>
+              <button
+                type="button"
+                className={navLinkClass(isSell)}
+                style={styles.navLinkDropdown}
+                onClick={() => setDropdownOpen((o) => !o)}
+                aria-expanded={dropdownOpen}
+                aria-haspopup="true"
+              >
+                <SellIcon active={isSell} />
+                Buy &amp; Sell Car
+                <span style={{
+                  ...styles.chevron,
+                  transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s',
+                }}>▼</span>
+              </button>
+
+              {dropdownOpen && (
+                <div style={styles.dropdown}>
+                  <Link
+                    to="/sell"
+                    className="dropdown-item"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Sell old car
+                  </Link>
+                  <Link
+                    to="/old-cars"
+                    className="dropdown-item"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Buy old car
+                  </Link>
+                  <Link
+                    to="/old-cars"
+                    className="dropdown-item"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Chat with users
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <Link to="/wishlist" className={navLinkClass(path === '/wishlist')}>
+              <HeartIcon active={path === '/wishlist'} />
+              Wishlist
+            </Link>
+
+            <Link to="/profile" className={navLinkClass(path === '/profile')}>
+              <ProfileIcon active={path === '/profile'} />
+              Profile
+            </Link>
+          </nav>
+
+          <button
+            type="button"
+            className="logout-btn"
+            onClick={() => navigate('/login')}
+          >
+            Log Out
+          </button>
+        </div>
+      </header>
+    </>
   );
 }
 
@@ -126,12 +224,6 @@ const styles = {
     padding: '0 24px',
     display: 'flex',
     alignItems: 'center',
-  },
-  logo: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-    textDecoration: 'none',
   },
   logoIcon: {
     width: 36,
@@ -159,23 +251,8 @@ const styles = {
   nav: {
     display: 'flex',
     alignItems: 'center',
-    gap: 28,
+    gap: 4,
     marginLeft: 'auto',
-  },
-  navLink: {
-    color: '#6b7280',
-    textDecoration: 'none',
-    fontSize: 14,
-    fontWeight: 500,
-    display: 'flex',
-    alignItems: 'center',
-    padding: '6px 16px',
-    borderRadius: 999,
-    transition: 'all 0.2s',
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    fontFamily: 'inherit',
   },
   navLinkDropdown: {
     gap: 6,
@@ -183,13 +260,7 @@ const styles = {
   chevron: {
     fontSize: 10,
     marginLeft: 2,
-    color: 'inherit',
-  },
-  navLinkActive: {
-    color: '#FF6A00',
-  },
-  navLinkActiveBg: {
-    backgroundColor: '#fff2e6',
+    display: 'inline-block',
   },
   dropdownWrap: {
     position: 'relative',
@@ -206,25 +277,6 @@ const styles = {
     border: '1px solid rgba(0,0,0,0.08)',
     padding: '8px 0',
     zIndex: 100,
-  },
-  dropdownItem: {
-    display: 'block',
-    padding: '10px 16px',
-    fontSize: 14,
-    fontWeight: 500,
-    color: '#0F1724',
-    textDecoration: 'none',
-  },
-  logOutBtn: {
-    height: 40,
-    padding: '0 22px',
-    borderRadius: 999,
-    backgroundColor: '#ff4d4f',
-    color: '#FFFFFF',
-    border: 'none',
-    fontSize: 14,
-    fontWeight: 600,
-    marginLeft: 16,
-    cursor: 'pointer',
+    animation: 'fadeSlideDown 0.15s ease',
   },
 };

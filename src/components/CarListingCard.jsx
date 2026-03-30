@@ -25,7 +25,7 @@ export function CarListingCard({ car, onFavorite, isFavorite = false, onView }) 
       <div style={styles.body}>
         <h3 style={styles.title}>{shortName}</h3>
         {car.subtitle && <p style={styles.subtitle}>{car.subtitle}</p>}
-        <p style={styles.price}>${car.price.toLocaleString()}</p>
+        <p style={styles.price}>₹{car.price.toLocaleString()}</p>
         <p style={styles.details}>
           {car.year} {car.fuelType} {mileageStr}
         </p>

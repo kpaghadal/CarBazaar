@@ -5,6 +5,7 @@ import { CarListingCard } from '../components/CarListingCard';
 import { SearchIcon, ResetIcon } from '../components/NavIcons';
 import { CARS } from '../data/cars';
 import { useWishlist } from '../context/WishlistContext.jsx';
+import '../../styles/users/BrowseCars.css';
 
 const BRAND_OPTIONS = ['Mercedes-Benz', 'BMW', 'Audi', 'Tesla', 'Porsche', 'Ford', 'Chevrolet', 'Nissan'];
 const FUEL_TYPES = ['Gasoline', 'Hybrid', 'Electric'];
