@@ -1,0 +1,52 @@
+/* CarBazaar Figma design - exact color palette */
+:root {
+  /* Backgrounds */
+  --color-bg-main: #FFFFFF;
+  --color-bg-page: #FFF7ED;
+  --color-bg-auth-page: #F8F8F8;
+  --color-bg-sidebar: #FFF7ED;
+  --color-bg-nav-active: #FFF3E0;
+  --color-bg-left-panel: #FFF7ED;
+  --color-footer-bg: #0F1724;
+
+  /* Brand & Accent */
+  --color-accent: #FF6A00;
+
+  /* Text */
+  --color-text-primary: #0F1724;
+  --color-text-secondary: #7A6B5A;
+  --color-text-brown: #4B2E00;
+  --color-text-placeholder: #7A6B5A;
+
+  /* UI */
+  --color-input-border: #E5E5E5;
+  --color-input-border-focus: #FF6A00;
+
+  /* Font */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+
+  /* Card */
+  --card-radius: 12px;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --input-radius: 8px;
+  --button-radius: 8px;
+
+  /* Sell page (same as export) */
+  --background: #fff8f4;
+  --foreground: #0f1724;
+  --border: #00000014;
+  --primary: #ff6a00;
+  --primary-foreground: #ffffff;
+  --secondary: #fff2e6;
+  --secondary-foreground: #7a3f00;
+  --muted: #f6f6f7;
+  --muted-foreground: #6b7280;
+  --destructive: #ff4d4f;
+  --destructive-foreground: #ffffff;
+  --card: #ffffff;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
