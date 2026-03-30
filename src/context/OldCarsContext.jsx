@@ -47,9 +47,20 @@ export function OldCarsProvider({ children }) {
     return id;
   };
 
+  const removeListing = (id) => {
+    setItems((prev) => prev.filter((car) => String(car.id) !== String(id)));
+  };
+
+  const clearAll = () => {
+    setItems([]);
+  };
+
   const getById = (id) => items.find((c) => String(c.id) === String(id));
 
-  const value = useMemo(() => ({ items, addListing, getById }), [items]);
+  const value = useMemo(
+    () => ({ items, addListing, getById, removeListing, clearAll }),
+    [items]
+  );
 
   return <OldCarsContext.Provider value={value}>{children}</OldCarsContext.Provider>;
 }
@@ -59,4 +70,3 @@ export function useOldCars() {
   if (!ctx) throw new Error('useOldCars must be used within OldCarsProvider');
   return ctx;
 }
-
