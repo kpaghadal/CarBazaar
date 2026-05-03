@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import './theme.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-primary);
+  background: var(--color-bg-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: #FF6A00;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+input,
+button {
+  font-family: var(--font-family);
+}
+
+input:focus {
+  border-color: #FF6A00;
+  outline: none;
+}
+
+.car-hero-placeholder.visible {
+  display: flex !important;
+}
+
+.hero-image-placeholder {
+  display: none;
+}
+.hero-image-placeholder.visible {
+  display: flex !important;
+}
+
+.hover-elevate {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.hover-elevate:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12);
+}
+.hover-elevate-sm {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.hover-elevate-sm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.10);
+}
+.image-zoom {
+  overflow: hidden;
+}
+.image-zoom img {
+  transition: transform .25s ease;
+}
+.image-zoom:hover img {
+  transform: scale(1.04);
+}
+.btn {
+  transition: background-color .2s ease, box-shadow .2s ease, transform .05s ease;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-primary {
+  background: #FF6A00;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #ff7f26;
+  box-shadow: 0 6px 14px rgba(255,106,0,.28);
+}
+.btn-soft {
+  background: #FFF2E6;
+  color: #0F1724;
+}
+.btn-soft:hover {
+  background: #ffe6d1;
+}
+.nav-link {
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+  border-radius: 999px;
+}
+.nav-link:hover {
+  background: #fff2e6;
+  color: #FF6A00;
+}
