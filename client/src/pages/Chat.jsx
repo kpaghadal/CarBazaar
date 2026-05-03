@@ -37,8 +37,17 @@ export function Chat() {
   const [loading,   setLoading]   = useState(false);
   const [sending,   setSending]   = useState(false);
   const [error,     setError]     = useState('');
-  const bottomRef = useRef(null);
-  const pollRef   = useRef(null);
+  const chatHistoryRef  = useRef(null);  // ref on the scrollable messages box
+  const pollRef         = useRef(null);
+  const isInitialLoad   = useRef(true);   // true until first batch of messages is rendered
+  const prevMsgCount    = useRef(0);      // tracks message count to detect genuinely new msgs
+
+  // Scroll helpers — operate ONLY on the chat-history box, never the page
+  const scrollToBottom = (smooth = false) => {
+    const el = chatHistoryRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: smooth ? 'smooth' : 'instant' });
+  };
 
   // ── Load all conversations (sidebar) ─────────────────────────
   const loadAllChats = useCallback(() => {
@@ -65,6 +74,9 @@ export function Chat() {
 
   useEffect(() => {
     if (!chatId) { setChatData(null); setMessages([]); return; }
+    // Reset scroll-tracking refs whenever we open a different conversation
+    isInitialLoad.current = true;
+    prevMsgCount.current  = 0;
     setLoading(true);
     setError('');
     loadMessages();
@@ -77,9 +89,31 @@ export function Chat() {
     return () => clearInterval(pollRef.current);
   }, [loadMessages, loadAllChats, chatId]);
 
-  // Auto-scroll to bottom
+  // Auto-scroll — instant snap on first load, smooth only for genuinely new messages
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length === 0) return;
+
+    if (isInitialLoad.current) {
+      // First render after page load / refresh — instant, no visible animation
+      scrollToBottom(false);
+      isInitialLoad.current = false;
+      prevMsgCount.current  = messages.length;
+      return;
+    }
+
+    // A new message arrived (sent or received)
+    if (messages.length > prevMsgCount.current) {
+      const el = chatHistoryRef.current;
+      if (el) {
+        const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+        // Auto-scroll only if already near the bottom (≤ 150 px away)
+        if (distanceFromBottom <= 150) {
+          scrollToBottom(true);
+        }
+      }
+    }
+
+    prevMsgCount.current = messages.length;
   }, [messages]);
 
   // ── Send message ──────────────────────────────────────────────
@@ -174,7 +208,7 @@ export function Chat() {
               </div>
 
               {/* Messages */}
-              <div className="chat-history">
+              <div className="chat-history" ref={chatHistoryRef}>
                 {loading && <p style={{ textAlign: 'center', color: '#9CA3AF' }}>Loading…</p>}
                 {error   && <p style={{ textAlign: 'center', color: '#EF4444' }}>{error}</p>}
 
@@ -214,7 +248,6 @@ export function Chat() {
                     </div>
                   );
                 })}
-                <div ref={bottomRef} />
               </div>
 
               {/* Input */}

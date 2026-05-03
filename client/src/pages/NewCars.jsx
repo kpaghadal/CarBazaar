@@ -8,6 +8,10 @@ import '../styles/users/NewCars.css';
 
 const FUEL_TYPES = ['Gasoline', 'Hybrid', 'Electric', 'Diesel'];
 
+// Upper bound for the price slider — must cover typical new-car prices (home has no price filter,
+// so expensive admin listings were hidden here when max was too low, e.g. ₹2,00,000).
+const DEFAULT_MAX_PRICE = 5_000_000;
+
 export function NewCars() {
   const navigate = useNavigate();
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -19,12 +23,17 @@ export function NewCars() {
   const [brand, setBrand] = useState('All Brands');
   const [fuelFilter, setFuelFilter] = useState('All');
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(200000);
+  const [maxPrice, setMaxPrice] = useState(DEFAULT_MAX_PRICE);
 
   useEffect(() => {
     carAPI
       .getNew()
-      .then((data) => setAllCars(data.map(normalizeCar)))
+      .then((data) => {
+        const normalized = data.map(normalizeCar);
+        setAllCars(normalized);
+        const hi = normalized.reduce((m, c) => Math.max(m, Number(c.price) || 0), 0);
+        if (hi > 0) setMaxPrice((prev) => Math.max(prev, hi));
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
@@ -50,7 +59,7 @@ export function NewCars() {
     setBrand('All Brands');
     setFuelFilter('All');
     setMinPrice(0);
-    setMaxPrice(200000);
+    setMaxPrice(DEFAULT_MAX_PRICE);
   };
 
   return (
@@ -145,9 +154,14 @@ export function NewCars() {
 
             {loading && <p className="newcars-state">Loading cars...</p>}
             {error && <p className="newcars-state newcars-state--error">{error}</p>}
-            {!loading && !error && filteredCars.length === 0 && (
-              <p className="newcars-state">No new cars yet. Add listings from the admin panel.</p>
-            )}
+            {!loading &&
+              !error &&
+              filteredCars.length === 0 &&
+              (allCars.length === 0 ? (
+                <p className="newcars-state">No new cars yet. Add listings from the admin panel.</p>
+              ) : (
+                <p className="newcars-state">No cars match your filters. Try raising the max price or resetting.</p>
+              ))}
 
             <div className="newcars-car-grid">
               {filteredCars.map((car) => (

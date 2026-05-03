@@ -57,7 +57,7 @@ const styles = {
     width: '100%',
     paddingTop: '66.67%',
     overflow: 'hidden',
-    backgroundColor: '#e5e7eb',
+    backgroundColor: '#f3f4f6',   /* subtle fallback while image loads */
   },
   image: {
     position: 'absolute',
@@ -65,7 +65,7 @@ const styles = {
     left: 0,
     width: '100%',
     height: '100%',
-    objectFit: 'contain',
+    objectFit: 'cover',           /* fill the frame, crop edges — no gray bars */
     objectPosition: 'center',
   },
   favoriteBtn: {

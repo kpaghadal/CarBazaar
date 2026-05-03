@@ -1,0 +1,227 @@
+/* ===== PAGE WRAP ===== */
+.login-page-wrap {
+  min-height: 100vh;
+  padding: 24px 16px;
+  background-color: #F8F8F8;
+}
+
+/* ===== TAB SWITCHER ===== */
+.login-tab-wrapper {
+  display: flex;
+  position: relative;
+  margin-top: 24px;
+  border-radius: 12px;
+  background-color: #F0EDE8;
+  padding: 4px;
+  gap: 4px;
+}
+
+.login-tab-btn {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 9px;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: transparent;
+  color: #7A6B5A;
+  position: relative;
+  z-index: 1;
+  transition:
+    color 0.3s ease,
+    transform 0.15s ease;
+}
+
+/* Hover lift effect */
+.login-tab-btn:hover {
+  transform: translateY(-1px);
+  color: #0F1724;
+}
+
+/* Click press effect */
+.login-tab-btn:active {
+  transform: scale(0.96);
+}
+
+/* Active sliding pill */
+.login-tab-btn.active {
+  color: #0F1724;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  animation: tabSlideIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Inactive tab fades out */
+.login-tab-btn:not(.active) {
+  animation: tabFadeOut 0.2s ease forwards;
+}
+
+/* Icon bounce when tab becomes active */
+.login-tab-btn.active .tab-icon {
+  display: inline-block;
+  animation: iconBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ===== TAB ANIMATIONS ===== */
+@keyframes tabSlideIn {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tabFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes iconBounce {
+  0%   { transform: scale(1) rotate(0deg); }
+  30%  { transform: scale(1.4) rotate(-10deg); }
+  60%  { transform: scale(0.9) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* ===== FORM FADE WHEN TAB SWITCHES ===== */
+.login-form-wrap {
+  animation: formFadeIn 0.3s ease forwards;
+}
+
+@keyframes formFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== TITLE & SUBTITLE ===== */
+.login-title {
+  margin: 24px 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0F1724;
+}
+
+.login-subtitle {
+  margin: 8px 0 0;
+  font-size: 0.9375rem;
+  color: #7A6B5A;
+}
+
+/* ===== FORM ===== */
+.login-form {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.login-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #7A6B5A;
+}
+
+.login-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border-radius: var(--input-radius);
+  border: 1px solid var(--color-input-border);
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+/* ===== PASSWORD FIELD ===== */
+.login-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.login-password-wrap .login-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 44px;
+}
+
+.login-eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 1rem;
+}
+
+/* ===== OPTIONS ROW ===== */
+.login-options {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.login-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: #0F1724;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.login-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #FF6A00;
+}
+
+/* ===== SUBMIT BUTTON ===== */
+.login-submit-btn {
+  margin-top: 8px;
+  padding: 14px 24px;
+  background-color: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--button-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.login-submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* ===== SIGNUP TEXT ===== */
+.login-signup-text {
+  margin: 24px 0 0;
+  font-size: 0.9375rem;
+  color: #7A6B5A;
+}
