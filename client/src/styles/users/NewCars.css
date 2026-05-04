@@ -1,0 +1,210 @@
+/* New Cars listing — warm showroom feel, matches CarBazaar palette */
+
+.newcars-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 45%, #fff7ed 100%);
+}
+
+.newcars-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+/* ── Page header (plain, no banner card) ─────────────────────── */
+.newcars-page-header {
+  padding: 8px 0 24px;
+  margin-bottom: 4px;
+  max-width: 640px;
+}
+
+.newcars-page-header-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e05e00;
+  margin-bottom: 10px;
+}
+
+.newcars-page-header-title {
+  margin: 0 0 10px;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #0f1724;
+}
+
+.newcars-page-header-desc {
+  margin: 0;
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.65;
+}
+
+.newcars-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.newcars-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.newcars-sidebar-section {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(15, 23, 36, 0.06);
+}
+
+.newcars-sidebar-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  color: #0f1724;
+}
+
+.newcars-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.newcars-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.newcars-range-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.newcars-range-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.newcars-range-row input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+}
+
+.newcars-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.newcars-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.newcars-search-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: #ffffff;
+  border-radius: 999px;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 2px 12px rgba(15, 23, 36, 0.05);
+}
+
+.newcars-search-wrap input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.9375rem;
+  background: transparent;
+}
+
+.newcars-results-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.newcars-count {
+  font-size: 0.875rem;
+  color: #7a6b5a;
+}
+
+.newcars-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: #ff6a00;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.newcars-reset-btn:hover {
+  background: #e05e00;
+}
+
+.newcars-car-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.newcars-state {
+  padding: 32px 8px;
+  color: #7a6b5a;
+  font-size: 1rem;
+}
+
+.newcars-state--error {
+  color: #ef4444;
+}
+
+@media (max-width: 1024px) {
+  .newcars-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .newcars-sidebar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .newcars-page-header {
+    padding-bottom: 20px;
+  }
+
+  .newcars-car-grid {
+    grid-template-columns: 1fr;
+  }
+}
