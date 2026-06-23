@@ -2,7 +2,7 @@
 // Central API client for all CarBazaar backend calls.
 // Automatically attaches the JWT token from localStorage to every request.
 
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const BASE = import.meta.env.VITE_API_URL || 'https://carbazaar-backend-pqag.onrender.com';
 
 function getToken() {
   return localStorage.getItem('carBazaarToken');

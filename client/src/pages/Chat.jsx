@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { chatAPI } from '../services/api.js';
 import '../styles/users/Chat.css';
 
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const BASE = import.meta.env.VITE_API_URL || 'https://carbazaar-backend-pqag.onrender.com';
 
 const SendIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="18" height="18">
