@@ -1,0 +1,6 @@
+# Environment files (never commit secrets)
+.env
+client/.env
+server/.env
+frontend/.env
+backend/.env

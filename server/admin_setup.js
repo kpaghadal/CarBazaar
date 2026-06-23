@@ -4,6 +4,20 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const adminEmail = process.env.ADMIN_EMAIL;
+const adminPassword = process.env.ADMIN_PASSWORD;
+const adminName = process.env.ADMIN_NAME || "Super Admin";
+
+if (!process.env.MONGO_URI) {
+  console.error("MONGO_URI is not set in server .env");
+  process.exit(1);
+}
+
+if (!adminEmail || !adminPassword) {
+  console.error("ADMIN_EMAIL and ADMIN_PASSWORD must be set in server .env");
+  process.exit(1);
+}
+
 mongoose.connect(process.env.MONGO_URI)
   .then(async () => {
     const userSchema = new mongoose.Schema({
@@ -17,19 +31,19 @@ mongoose.connect(process.env.MONGO_URI)
     let admin = await User.findOne({ role: "admin" });
     if (!admin) {
         console.log("No admin found. Creating one...");
-        const hashed = await bcrypt.hash("admin123", 10);
+        const hashed = await bcrypt.hash(adminPassword, 10);
         admin = await User.create({
-            name: "Super Admin",
-            email: "admin@carbazaar.com",
+            name: adminName,
+            email: adminEmail,
             password: hashed,
             role: "admin"
         });
-        console.log("Admin created: admin@carbazaar.com / admin123");
+        console.log(`Admin created: ${adminEmail}`);
     } else {
-        const hashed = await bcrypt.hash("admin123", 10);
+        const hashed = await bcrypt.hash(adminPassword, 10);
         admin.password = hashed;
         await admin.save();
-        console.log(`Admin found. Email: ${admin.email} | Password reset to: admin123`);
+        console.log(`Admin found. Email: ${admin.email} | Password reset from ADMIN_PASSWORD`);
     }
     process.exit(0);
   })
