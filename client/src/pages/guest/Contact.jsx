@@ -44,7 +44,7 @@ export function Contact() {
                 </div>
                 <div>
                   <h4 style={styles.infoTitle}>Phone</h4>
-                  <p style={styles.infoText}>+1 (800) 123-4567</p>
+                  <p style={styles.infoText}>98765 68785</p>
                 </div>
               </div>
             </div>
@@ -56,12 +56,12 @@ export function Contact() {
               
               <div style={styles.inputGroup}>
                 <label style={styles.label}>Name</label>
-                <input type="text" style={styles.input} required placeholder="John Doe" />
+                <input type="text" style={styles.input} required placeholder="Rahul Maheta" />
               </div>
               
               <div style={styles.inputGroup}>
                 <label style={styles.label}>Email</label>
-                <input type="email" style={styles.input} required placeholder="john@example.com" />
+                <input type="email" style={styles.input} required placeholder="rahul@example.com" />
               </div>
               
               <div style={styles.inputGroup}>
